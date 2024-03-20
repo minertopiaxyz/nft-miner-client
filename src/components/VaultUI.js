@@ -1,13 +1,12 @@
 import React from 'react'
 
-const client = require('../client.json');
-const { tokenSymbol } = client;
 const Lib = require('../Lib');
 const { simpleNum, secsToText } = Lib;
 // let formatter = Intl.NumberFormat('en', { notation: 'compact' });
 
 const VaultUI = (props) => {
   const {
+    uiData,
     ts,
     amountToStake,
     onAmountToStake,
@@ -29,6 +28,7 @@ const VaultUI = (props) => {
     userUnstakedToken,
     apy
   } = props;
+  const { tokenSymbol } = uiData;
   // const [ts, setTs] = useState(0);
   // const stakeMsg = 'Stake minted Fluxtopia Coin ($FTC) in Fluxtopia staking vault to earn more $FTC. Estimated annual yield (APY) calculated from 7 days average of daily yield.'
 

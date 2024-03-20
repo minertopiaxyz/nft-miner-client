@@ -1,7 +1,5 @@
 const ethers = require("ethers").ethers;
-const config = require('./json/config.json');
 const SC_ABI = require('./json/BankV1.sol/BankV1.json').abi;
-const SC_ADDRESS = config.bank;
 
 module.exports = class Bank {
   constructor(dapp) {
@@ -10,10 +8,8 @@ module.exports = class Bank {
 
   async init() {
     const signer = this.dapp.getSigner();
-    this.sc = new ethers.Contract(SC_ADDRESS, SC_ABI, signer);
+    this.sc = new ethers.Contract(this.dapp.config.bank, SC_ABI, signer);
     this.address = this.sc.address;
-    // const version = await this.sc.VERSION();
-    // const basePrice = await this.sc.getBasePrice();
   }
 
   async swapCoinToToken(amount, receiver) {

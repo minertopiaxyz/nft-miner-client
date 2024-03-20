@@ -4,8 +4,8 @@ import { DappContext } from '../Dashboard'
 import MintUI from './MintUI'
 
 const Lib = require('../Lib');
-const client = require('../client.json');
-const { nftImgUrl, placeholderImgUrl } = client;
+// const client = require('../client.json');
+// const { nftImgUrl, placeholderImgUrl } = client;
 
 const Mint = () => {
   const ctx = useContext(DappContext);
@@ -15,6 +15,9 @@ const Mint = () => {
   const connected = dappState && dappState.userAddress;
   const dapp = dappState.dapp;
   const userData = dappState.userData;
+  const uiData = dappState.uiData;
+
+  const { nftImgUrl, placeholderImgUrl } = uiData;
 
   let userETH = 0;
   let nextNftId = 0;
@@ -57,6 +60,7 @@ const Mint = () => {
 
   return (
     <MintUI
+      uiData={uiData}
       userETH={userETH}
       nextNftId={nextNftId} nextNftImg={nextNftImg}
       onMintNFT={() => mintNFT()} />

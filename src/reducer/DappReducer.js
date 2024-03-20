@@ -1,3 +1,5 @@
+const client = require('../client.json');
+
 export const dappInitialState = {
   ts: 0,
   dapp: null,
@@ -10,10 +12,10 @@ export const dappInitialState = {
   bankData: null,
   priceData: null,
   msg: '',
-
+  uiData: client,
   txStatus: 'CLOSE', // 'BUSY', 'SUCCESS', 'ERROR', 'CLOSE'
   txHash: '',
-  txError: '',
+  txError: ''
 }
 
 export const dappReducer = (state, action) => {
@@ -96,7 +98,11 @@ export const dappReducer = (state, action) => {
         txHash: '',
         txError: '',
       };
-
+    case 'SET_UI_DATA':
+      return {
+        ...state,
+        uiData: action.uiData
+      };
     case 'SET_MSG':
       return {
         ...state,

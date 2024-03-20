@@ -2,10 +2,10 @@ import React from 'react'
 import { useContext } from 'react'
 import { DappContext } from '../Dashboard'
 
-const client = require('../client.json');
-
 const PopupTx = () => {
   const { dappState } = useContext(DappContext);
+  const uiData = dappState.uiData;
+  const { EXPLORER_TX_URL } = uiData;
 
   const txStatus = dappState?.txStatus;
   const txHash = dappState?.txHash;
@@ -20,7 +20,7 @@ const PopupTx = () => {
   let btnExplorerUrl = '';
   if (txHash && txHash.length > 0) {
     btnExplorerStyle = 'btn';
-    btnExplorerUrl = client.EXPLORER_TX_URL + txHash;
+    btnExplorerUrl = EXPLORER_TX_URL + txHash;
   }
 
   // if (txError && txError.length > 0) {

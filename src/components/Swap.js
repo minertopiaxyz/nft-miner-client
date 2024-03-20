@@ -2,11 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import SwapUI from './SwapUI';
 import { DappContext } from '../Dashboard';
 
-// const moment = require('moment');
-// const client = require('../client.json');
-// const { nftName, nftImgUrl, placeholderImgUrl, ethSymbol, tokenSymbol } = client;
 const Lib = require('../Lib');
-// const { simpleNum, secsToText } = Lib;
 
 const Swap = () => {
   const ctx = useContext(DappContext);
@@ -19,10 +15,10 @@ const Swap = () => {
 
   const connected = dappState && dappState.userAddress;
   const dapp = dappState.dapp;
-  // const ts = dappState.ts;
   const userData = dappState.userData;
   const bankData = dappState.bankData;
   const priceData = dappState.priceData;
+  const uiData = dappState.uiData;
 
   let userETH = 0;
   let userToken = 0;
@@ -131,6 +127,7 @@ const Swap = () => {
 
   return (
     <SwapUI
+      uiData={uiData}
       needApprove={needApprove}
       userETH={userETH}
       userToken={userToken}

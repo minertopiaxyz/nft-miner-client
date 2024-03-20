@@ -23,6 +23,7 @@ const Manage = () => {
   const ts = dappState.ts;
   const userData = dappState.userData;
   const userNftData = dappState.userNftData;
+  const uiData = dappState.uiData;
 
   let userETH = 0;
   let userToken = 0;
@@ -108,6 +109,7 @@ const Manage = () => {
 
   return (
     <ManageUI
+      uiData={uiData}
       ts={ts}
       userETH={userETH}
       userToken={userToken}

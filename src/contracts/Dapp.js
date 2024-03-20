@@ -9,7 +9,8 @@ const Token = require('./Token');
 const Pool = require('./Pool');
 const Vault = require('./Vault');
 
-const config = require('./json/config.json');
+const config3636 = require('./json/config3636.json');
+const config7701 = require('./json/config7701.json');
 
 // dont include outside file. ex: Lib
 
@@ -25,19 +26,38 @@ const config = require('./json/config.json');
 module.exports = class Dapp {
   constructor(chainId) {
     this.OPTS = {};
-
-    if (chainId === 3636) {
-      this.OPTS = {
-        gasLimit: 10000000,
-        gasPrice: ethers.utils.parseUnits('0.001', 'gwei')
-      }
-    }
-
     this.CHAIN_ID = chainId;
     this.PROVIDER = null;
     this.SIGNER = null;
     this.USER_ADDRESS = null;
     this.RANDOM_WALLET = false;
+
+    if (chainId) this.setChainId(chainId);
+  }
+
+  async getChainId() {
+    try {
+      if (!window.ethereum) return null;
+      let chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      return Number(chainId);
+    } catch (err) {
+      console.error(err);
+    }
+    return null;
+  }
+
+  setChainId(chainId) {
+    this.OPS = {};
+    this.CHAIN_ID = chainId;
+    if (chainId === 3636) {
+      this.OPTS = {
+        gasLimit: 10000000,
+        gasPrice: ethers.utils.parseUnits('0.001', 'gwei')
+      }
+      this.config = config3636;
+    } else if (chainId === 7701) {
+      this.config = config7701;
+    }
   }
 
   async initContracts() {
@@ -55,9 +75,9 @@ module.exports = class Dapp {
     this.NFT_REWARD = new NFTReward(this);
     await this.NFT_REWARD.init();
     // this.USDT = new Token(this);
-    // await this.USDT.init(config.coin);
+    // await this.USDT.init(this.config.coin);
     this.TOKEN = new Token(this);
-    await this.TOKEN.init(config.token);
+    await this.TOKEN.init(this.config.token);
     this.POOL = new Pool(this);
     await this.POOL.init();
   }
@@ -114,17 +134,11 @@ module.exports = class Dapp {
     const pd = await this.BANK.getPriceData();
     console.log(pd);
     let p = pd.midPrice;
-    
+
     return {
       price: p,
       apy: apy,
     }
-  }
-
-  isAdmin() {
-    const a = this.USER_ADDRESS;
-    const b = config.deployer;
-    return (a.toLowerCase() === b.toLowerCase());
   }
 
   isReadOnly() {

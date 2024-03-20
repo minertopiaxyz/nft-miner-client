@@ -1,10 +1,8 @@
 import React from 'react'
 import { MdOutlineSwapCalls } from "react-icons/md";
-const client = require('../client.json');
-const { ethSymbol, tokenSymbol } = client;
-// const Lib = require('../Lib');
 
 const SwapUI = ({
+  uiData,
   needApprove,
   userETH,
   userToken,
@@ -18,6 +16,7 @@ const SwapUI = ({
   onSwitchBuySell,
   onApprove
 }) => {
+  const { ethSymbol, tokenSymbol } = uiData;
   let topSymbol;
   let bottomSymbol;
   let btns;

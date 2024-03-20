@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useReducer } from "react";
 import { dappReducer, dappInitialState } from './reducer/DappReducer';
+import moment from 'moment';
 import Mint from "./components/Mint";
 import Manage from "./components/Manage";
 import Vault from "./components/Vault";
@@ -9,9 +10,11 @@ import PopupTx from "./components/PopupTx";
 import Swap from './components/Swap';
 
 const client = require('./client.json');
+const client3636 = require('./client3636.json');
+const client7701 = require('./client7701.json');
+
 const Lib = require('./Lib');
 const Dapp = require("./contracts/Dapp");
-const { CHAIN_ID, PROVIDER_URL, blockchainName, metamaskUrl, chainlistUrl } = client;
 // const { clearStorageValue } = Lib;
 
 export const DappContext = createContext();
@@ -20,21 +23,47 @@ function Dashboard() {
   const [dappState, dappDispatch] = useReducer(dappReducer, dappInitialState);
   const [selTab, setSelTab] = useState(0);
 
+  const { blockchainName, metamaskUrl, chainlistUrl } = dappState.uiData;
+
   useEffect(() => {
-    const DAPP = new Dapp(CHAIN_ID);
+    let DAPP = new Dapp();
     let itv;
+    let offset = 0;
+
+    const initTS = async () => {
+      try {
+        const ts = await DAPP.getBlockTS();
+        offset = ts - moment().unix(); // ts = moment().unix() + offset
+        dappDispatch({ type: 'SET_TS', ts: ts });        
+      } catch (err) {
+      }
+    }
 
     const updateTS = async () => {
       try {
-        const ts = await DAPP.getBlockTS();
-        dappDispatch({ type: 'SET_TS', ts: ts });
-        const priceData = await DAPP.BANK.getPriceData();
-        dappDispatch({ type: 'SET_PRICE_DATA', priceData });
+        dappDispatch({ type: 'SET_TS', ts: moment().unix() + offset });
       } catch (err) {
       }
     }
 
     const initDapp = async () => {
+      const detectedChainId = await DAPP.getChainId();
+
+      const CHAIN_ID = detectedChainId;
+
+      let PROVIDER_URL;
+      if (CHAIN_ID === 3636) {
+        dappDispatch({ type: 'SET_UI_DATA', uiData: client3636 });
+        PROVIDER_URL = 'https://node.botanixlabs.dev';
+      } else if (CHAIN_ID === 7701) {
+        dappDispatch({ type: 'SET_UI_DATA', uiData: client7701 });
+        PROVIDER_URL = 'https://canto-testnet.plexnode.wtf';
+      } else {
+        dappDispatch({ type: 'SET_UI_DATA', uiData: client });
+        PROVIDER_URL = 'http://127.0.0.1:8545';
+      }
+
+      DAPP.setChainId(CHAIN_ID);
       let walletOK = false;
       try {
         await DAPP.detectMetamask();
@@ -57,7 +86,7 @@ function Dashboard() {
         dappDispatch({ type: 'SET_FARM_DATA', farmData });
         dappDispatch({ type: 'SET_BANK_DATA', bankData });
 
-        await updateTS();
+        await initTS();
         let busy = false;
         itv = setInterval(async () => {
           if (!busy) {
@@ -65,7 +94,7 @@ function Dashboard() {
             await updateTS();
             busy = false;
           }
-        }, 10000);
+        }, 1000);
 
       } catch (err) {
         console.error(err);

@@ -1,13 +1,8 @@
 import React from 'react'
 
-const client = require('../client.json');
-const { nftName, ethSymbol, mintCost, nftMaxSupply } = client;
-
-const MintUI = ({ userETH, onMintNFT, nextNftId, nextNftImg }) => {
+const MintUI = ({ uiData, userETH, onMintNFT, nextNftId, nextNftImg }) => {
+  const { nftName, ethSymbol, mintCost, nftMaxSupply } = uiData;
   const title = nftName + ' #' + (nextNftId + '').padStart(4, '0');
-
-  // const mintMsg = `Become a new Fluxtopia People by minting the NFT for 100 $CFX. 
-  // The $CFX will be staked into Conflux PoS pool and the interest will be used to buy back Fluxtopia Coin $FTC.`;
 
   const btnOK = Number(userETH) >= Number(mintCost);
 

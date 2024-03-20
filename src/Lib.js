@@ -57,12 +57,11 @@ async function clearStorageValue() {
 }
 
 function getBaseURL() {
-  const ret = window.location.protocol+'//'+window.location.host;
+  const ret = window.location.protocol + '//' + window.location.host;
   return ret;
 }
 
-console.log(getBaseURL());
-
+// console.log(getBaseURL());
 
 module.exports = {
   getBaseURL,

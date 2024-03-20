@@ -1,7 +1,5 @@
 const ethers = require("ethers").ethers;
-const config = require('./json/config.json');
 const SC_ABI = require('./json/NFTRewardV1.sol/NFTRewardV1.json').abi;
-const SC_ADDRESS = config.nftreward;
 
 module.exports = class NFTReward {
   constructor(dapp) {
@@ -10,7 +8,7 @@ module.exports = class NFTReward {
 
   async init() {
     const signer = this.dapp.getSigner();
-    this.sc = new ethers.Contract(SC_ADDRESS, SC_ABI, signer);
+    this.sc = new ethers.Contract(this.dapp.config.nftreward, SC_ABI, signer);
     this.address = this.sc.address;
   }
 

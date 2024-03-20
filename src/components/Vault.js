@@ -16,6 +16,7 @@ const Vault = () => {
   const connected = dappState && dappState.userAddress;
   const dapp = dappState.dapp;
   const ts = dappState.ts;
+  const uiData = dappState.uiData;
 
   let userToken = 0;
   let needApprove = true;
@@ -157,6 +158,7 @@ const Vault = () => {
 
   return (
     <VaultUI
+      uiData={uiData}
       ts={ts}
       amountToStake={amountToStake}
       onAmountToStake={val => setAmountToStake(val)}

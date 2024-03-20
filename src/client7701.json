@@ -1,19 +1,19 @@
 {
-  "CHAIN_ID": 1,
-  "PROVIDER_URL": "https://node.botanixlabs.dev",
-  "blockchainName": "Blockchain Testnet",
+  "CHAIN_ID": 7701,
+  "PROVIDER_URL": "https://canto-testnet.plexnode.wtf",
+  "blockchainName": "Canto Testnet",
   "projectName": "Minertopia",
   "nftName": "Minertopia Citizen",
-  "EXPLORER_TX_URL": "https://blockscout.botanixlabs.dev/tx/",
-  "ethSymbol": "USD",
+  "EXPLORER_TX_URL": "https://testnet.tuber.build/tx/",
+  "ethSymbol": "CANTO",
   "tokenName": "Minertopia Token",
   "tokenSymbol": "MTK",
   "landingPageURL": "https://minertopia.xyz",
   "metamaskUrl": "https://metamask.io/download",
-  "chainlistUrl": "https://chainlist.org/chain/3636",
+  "chainlistUrl": "https://chainlist.org/chain/7701",
   "placeholderImgUrl": "https://placehold.co/200x200?text=MINERTOPIA",
   "nftImgUrl": "https://res.cloudinary.com/dmyum8dv5/image/upload/f_auto,q_auto/v1/minertopia/card",
-  "mintCost": "20",
+  "mintCost": "1",
   "nftMaxSupply": 3333,
   "dashboardUrl": "https://nft.minertopia.xyz",
   "projectDesc": "Comrades, Unite! Forge a Digital Utopia for the Workers of the Web: Mint Your NFT Citizenship Token and Become a Citizen-Miner in the Blockchain Digital Nation!",
@@ -26,5 +26,5 @@
   "forumLink": "",
   "swapUrl": "",
   "chartUrl": "https://dexscreener.com",
-  "coinUrl": "https://blockscout.botanixlabs.dev/token/0x51BE38d8e2B98a0B7338FF647e833A154B5b02a8"
+  "coinUrl": "https://testnet.tuber.build/token/0xd6d4dd9F43BAF4A65e8f654E7EB36B6588c6780d"
 }

@@ -1,8 +1,6 @@
 const ethers = require("ethers").ethers;
 const { BigNumber } = require("ethers");
-const config = require('./json/config.json');
 const SC_ABI = require('./json/PoolV1.sol/PoolV1.json').abi;
-const SC_ADDRESS = config.pool;
 // const PP_ABI = require('./json/PosPoolABI.json');
 // const PP_ADDRESS = config.pospool;
 
@@ -13,7 +11,7 @@ module.exports = class Pool {
 
   async init() {
     const signer = this.dapp.getSigner();
-    this.sc = new ethers.Contract(SC_ADDRESS, SC_ABI, signer);
+    this.sc = new ethers.Contract(this.dapp.config.pool, SC_ABI, signer);
     this.address = this.sc.address;
     // this.posPool = new ethers.Contract(PP_ADDRESS, PP_ABI, signer);
   }

@@ -1,9 +1,6 @@
 const moment = require('moment');
 const ethers = require("ethers").ethers;
-
-const config = require('./json/config.json');
 const SC_ABI = require('./json/VaultV1.sol/VaultV1.json').abi;
-const SC_ADDRESS = config.vault;
 
 module.exports = class Vault {
   constructor(dapp) {
@@ -12,7 +9,7 @@ module.exports = class Vault {
 
   async init() {
     const signer = this.dapp.getSigner();
-    this.sc = new ethers.Contract(SC_ADDRESS, SC_ABI, signer);
+    this.sc = new ethers.Contract(this.dapp.config.vault, SC_ABI, signer);
     this.address = this.sc.address;
   }
 

@@ -1,11 +1,10 @@
 import React from 'react'
 
-const client = require('../client.json');
-const { nftName, nftImgUrl, placeholderImgUrl, ethSymbol, tokenSymbol } = client;
 const Lib = require('../Lib');
 const { simpleNum, secsToText } = Lib;
 
 const ManageUI = ({
+  uiData,
   ts,
   userETH,
   nftIds,
@@ -24,6 +23,7 @@ const ManageUI = ({
   nextUpdateTime,
   onClaimReward
 }) => {
+  const { nftName, nftImgUrl, placeholderImgUrl, ethSymbol, tokenSymbol } = uiData;
   // const [ts, setTs] = useState(0);
   // const manageMsg = 'Every Fluxtopia People is a miner of Fluxtopia Coin $FTC. Receive equal share of 30% mined coin as basic income. Invest more $CFX to get share in remaining 70% mined coin. Invested $CFX will be staked in PoS pool forever and the interest used to buyback $FTC.';
 

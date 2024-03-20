@@ -1,8 +1,5 @@
 const ethers = require("ethers").ethers;
-
-const config = require('./json/config.json');
 const SC_ABI = require('./json/NFTV1.sol/NFTV1.json').abi;
-const SC_ADDRESS = config.nft;
 
 module.exports = class NFT {
   constructor(dapp) {
@@ -11,7 +8,7 @@ module.exports = class NFT {
 
   async init() {
     const signer = this.dapp.getSigner();
-    this.sc = new ethers.Contract(SC_ADDRESS, SC_ABI, signer);
+    this.sc = new ethers.Contract(this.dapp.config.nft, SC_ABI, signer);
     this.address = this.sc.address;
     const owner = await this.sc.owner();
     this.ownerAddress = owner.toLowerCase();
