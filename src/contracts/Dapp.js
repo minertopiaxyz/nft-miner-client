@@ -11,6 +11,8 @@ const Vault = require('./Vault');
 
 const config3636 = require('./json/config3636.json');
 const config7701 = require('./json/config7701.json');
+const config421614 = require('./json/config421614.json');
+const configDefault = config3636;
 
 // dont include outside file. ex: Lib
 
@@ -31,6 +33,7 @@ module.exports = class Dapp {
     this.SIGNER = null;
     this.USER_ADDRESS = null;
     this.RANDOM_WALLET = false;
+    this.config = configDefault;
 
     if (chainId) this.setChainId(chainId);
   }
@@ -48,22 +51,25 @@ module.exports = class Dapp {
 
   setChainId(chainId) {
     this.OPS = {};
-    this.CHAIN_ID = chainId;
     if (chainId === 3636) {
       this.OPTS = {
         gasLimit: 10000000,
         gasPrice: ethers.utils.parseUnits('0.001', 'gwei')
       }
       this.config = config3636;
+      this.CHAIN_ID = chainId;
     } else if (chainId === 7701) {
       this.config = config7701;
+      this.CHAIN_ID = chainId;
+    } else if (chainId === 421614) {
+      this.config = config421614;
+      this.CHAIN_ID = chainId;
     }
   }
 
   async initContracts() {
     const signer = this.SIGNER;
     if (!signer) throw new Error('SIGNER not loaded.');
-
     this.BANK = new Bank(this);
     await this.BANK.init();
     // this.GUARD = new Guard(this);
@@ -94,7 +100,9 @@ module.exports = class Dapp {
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload());
     let chainId = await window.ethereum.request({ method: 'eth_chainId' });
     chainId = Number(chainId);
-    if (chainId !== this.CHAIN_ID) throw new Error('Please connect metamask to right network!');
+    if (chainId !== this.CHAIN_ID) {
+      throw new Error('Please connect metamask to right network!');
+    }
     let connected = window.ethereum.isConnected();
     return connected;
   }
@@ -108,6 +116,7 @@ module.exports = class Dapp {
   }
 
   async loadPrivateKey(pk, providerUrl) {
+    console.log('** read only wallet **');
     if (!pk) {
       const tmp = ethers.Wallet.createRandom();
       pk = tmp.privateKey;
@@ -116,7 +125,6 @@ module.exports = class Dapp {
     this.PROVIDER = new ethers.providers.JsonRpcProvider(providerUrl);
     this.SIGNER = new ethers.Wallet(pk, this.PROVIDER);
     this.USER_ADDRESS = await this.SIGNER.getAddress();
-    console.log('connected as: ' + this.USER_ADDRESS);
     return this.USER_ADDRESS;
   }
 
@@ -132,7 +140,6 @@ module.exports = class Dapp {
     // p = Math.floor(Number(wei2eth(p))) / 1000000000;
     // p = eth2wei(p);
     const pd = await this.BANK.getPriceData();
-    console.log(pd);
     let p = pd.midPrice;
 
     return {

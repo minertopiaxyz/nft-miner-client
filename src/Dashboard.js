@@ -9,9 +9,10 @@ import Wallet from "./components/Wallet";
 import PopupTx from "./components/PopupTx";
 import Swap from './components/Swap';
 
-const client = require('./client.json');
+const clientDefault = require('./client3636.json');
 const client3636 = require('./client3636.json');
 const client7701 = require('./client7701.json');
+const client421614 = require('./client421614.json');
 
 const Lib = require('./Lib');
 const Dapp = require("./contracts/Dapp");
@@ -34,7 +35,7 @@ function Dashboard() {
       try {
         const ts = await DAPP.getBlockTS();
         offset = ts - moment().unix(); // ts = moment().unix() + offset
-        dappDispatch({ type: 'SET_TS', ts: ts });        
+        dappDispatch({ type: 'SET_TS', ts: ts });
       } catch (err) {
       }
     }
@@ -52,16 +53,17 @@ function Dashboard() {
       const CHAIN_ID = detectedChainId;
 
       let PROVIDER_URL;
+      let client = clientDefault;
       if (CHAIN_ID === 3636) {
-        dappDispatch({ type: 'SET_UI_DATA', uiData: client3636 });
-        PROVIDER_URL = 'https://node.botanixlabs.dev';
+        client = client3636;
       } else if (CHAIN_ID === 7701) {
-        dappDispatch({ type: 'SET_UI_DATA', uiData: client7701 });
-        PROVIDER_URL = 'https://canto-testnet.plexnode.wtf';
-      } else {
-        dappDispatch({ type: 'SET_UI_DATA', uiData: client });
-        PROVIDER_URL = 'http://127.0.0.1:8545';
+        client = client7701;
+      } else if (CHAIN_ID === 421614) {
+        client = client421614;
       }
+
+      dappDispatch({ type: 'SET_UI_DATA', uiData: client });
+      PROVIDER_URL = client.PROVIDER_URL;
 
       DAPP.setChainId(CHAIN_ID);
       let walletOK = false;
@@ -98,7 +100,7 @@ function Dashboard() {
 
       } catch (err) {
         console.error(err);
-        console.error('** fail to initialize contract **');
+        console.error('** fail to connect **');
       }
     }
 
