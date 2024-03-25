@@ -9,7 +9,7 @@ import Wallet from "./components/Wallet";
 import PopupTx from "./components/PopupTx";
 import Swap from './components/Swap';
 
-const clientDefault = require('./client3636.json');
+const clientDefault = require('./client.json');
 const client3636 = require('./client3636.json');
 const client7701 = require('./client7701.json');
 const client421614 = require('./client421614.json');

@@ -12,7 +12,7 @@ const Vault = require('./Vault');
 const config3636 = require('./json/config3636.json');
 const config7701 = require('./json/config7701.json');
 const config421614 = require('./json/config421614.json');
-const configDefault = config3636;
+const configDefault = config421614;
 
 // dont include outside file. ex: Lib
 
